@@ -1,4 +1,7 @@
-﻿namespace ToDoAPI
+﻿using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+
+namespace ToDoAPI
 {
     public class Startup
     {
@@ -12,8 +15,11 @@
 
         public void ConfigureServices(IServiceCollection services) 
         {
-            services.AddControllers();
-            
+            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
