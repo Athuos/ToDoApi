@@ -4,7 +4,7 @@
 
 namespace ToDoAPI.Migrations
 {
-    public partial class AddTag : Migration
+    public partial class AddTg : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

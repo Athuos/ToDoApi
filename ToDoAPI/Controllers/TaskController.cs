@@ -14,18 +14,33 @@ namespace ToDoAPI.Controllers
             this.context = context;
         }
         // get para todas las tareas
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<Entities.Task>> Get(int id) 
+
+        [HttpGet]
+        public async Task<ActionResult<List<Entities.Task>>> Get([FromQuery] string user = null, [FromQuery] string tag = null, [FromQuery] string finished = null)
         {
-            var task = await context.Tasks.Include(t => t.UserId).FirstOrDefaultAsync(t => t.Id == id);
-            return task;
+            List<Entities.Task> tasks = context.Tasks.ToList();
+
+
+            if (user != null)
+            {
+                tasks = (List<Entities.Task>)context.Tasks.Where(t => t.UserId == (Convert.ToInt32(user))).ToList();
+            }
+
+            if (tag != null)
+            {
+                tasks = (List<Entities.Task>)context.Tasks.Where(t => t.TagId == (Convert.ToInt32(tag))).ToList();
+            }
+
+            if(finished == "1") 
+            {
+                tasks = (List<Entities.Task>)context.Tasks.Where(t => t.Status == true).ToList();
+            }else if (finished == "0") 
+            { 
+                tasks = (List<Entities.Task>)context.Tasks.Where(t => t.Status == false).ToList();
+            }
+
+            return tasks;
         }
-        // get para tareas por usuario
-        [HttpGet("{id_user:int}")]
-        //public async Task<ActionResult<Entities.Task>> GetWU(int id_user) 
-        //{ 
-        //    var task = await context.Taks.
-        //}
 
         [HttpPost]
         public async Task<ActionResult<Entities.Task>> Post(Entities.Task task) 

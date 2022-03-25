@@ -12,8 +12,8 @@ using ToDoAPI;
 namespace ToDoAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220324225623_AddTag")]
-    partial class AddTag
+    [Migration("20220324235446_Add-Tg")]
+    partial class AddTg
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
